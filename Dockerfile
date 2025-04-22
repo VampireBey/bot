@@ -1,19 +1,16 @@
-# Copyright (C) 2024 frknkrc44 <https://gitlab.com/frknkrc44>
-#
-# This file is part of HedoshiMusicBot project,
-# and licensed under GNU Affero General Public License v3.
-# See the GNU Affero General Public License for more details.
-#
-# All rights reserved. See COPYING, AUTHORS.
-#
+FROM python:3.13-bookworm
 
-FROM nikolaik/python-nodejs:python3.11-nodejs18-slim
-RUN apt update \
-    && apt full-upgrade -y \
-    && apt install ffmpeg git gcc linux-libc-dev -y
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends ffmpeg git && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-COPY . /app/
-WORKDIR /app/
-RUN pip3 install --no-cache-dir wheel
-RUN pip3 install --no-cache-dir -U pip -r requirements.txt
+WORKDIR /app
+
+COPY requirements.txt ./
+RUN python3 -m pip install --upgrade pip setuptools wheel && \
+    pip3 install --no-cache-dir -r requirements.txt && \
+    rm -rf ~/.cache/pip
+
+COPY . .
+
 CMD ["python3", "-m", "hedoshi"]
