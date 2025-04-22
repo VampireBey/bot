@@ -1,16 +1,10 @@
-FROM python:3.13-bookworm
+FROM nikolaik/python-nodejs:python3.11-nodejs18-slim
+RUN apt update \
+    && apt full-upgrade -y \
+    && apt install ffmpeg git gcc linux-libc-dev -y
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends ffmpeg git && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /app
-
-COPY requirements.txt ./
-RUN python3 -m pip install --upgrade pip setuptools wheel && \
-    pip3 install --no-cache-dir -r requirements.txt && \
-    rm -rf ~/.cache/pip
-
-COPY . .
-
+COPY . /app/
+WORKDIR /app/
+RUN pip3 install --no-cache-dir wheel
+RUN pip3 install --no-cache-dir -U pip -r requirements.txt
 CMD ["python3", "-m", "hedoshi"]
