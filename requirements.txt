@@ -4,7 +4,7 @@ httpx[socks]
 python-dotenv
 tgcrypto
 yt-dlp
-pytgcalls==0.5.2.8
 pyrogram==2.0.106
 tgcrypto==1.2.5
+git+https://github.com/pytgcalls/pytgcalls.git@cc67b5c8f29f253348b43017a6cfa8c6f7dcb3b2#egg=pytgcalls
 https://github.com/coletdjnz/yt-dlp-youtube-oauth2/archive/refs/heads/master.zip
